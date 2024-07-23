@@ -1,0 +1,73 @@
+1. printf allows us to take in multiple arguments
+2. This is kind of similar to argc and argv in int main
+3. This feature of a function to accept multiple arguments
+	is called a variadic function.
+4. The arguments can also be of varying types.
+
+5. The header file <stdarg.g> contains everything we need to 
+	create a function with variable number of arguments
+6. The first argument of such a function will be the number of
+	arguments it can hold
+7. The second argument would be ...
+8. In the function body, we have to declare a list of type va_list
+	(variable arguments list)
+
+Example program:
+	void numbers(int num_args, ...)
+	{
+		va_list args;
+		va_start(args, num_args);
+
+		int i;
+		i = 0;
+		while (i < num_args)
+		{
+			int x = va_arg(args, int);
+			printf("%d\n", x);
+			i += 1;
+		}
+		va_end(args);
+	}
+	int main()
+	{	
+		numbers(4,1,2,3,4);
+	}
+
+1. When calling the variadic function from main, the first argument is the
+	number of arguments you are going to pass.
+2. va_list is a "list" that will contain all your arguments
+3. va_start will take in your "list", and the last argument that comes
+	right before the ..., in our case, num_args
+4. The va_start macro is used to initialize the va_list variable, 
+	and must be passed the last non-variadic argument of the function.
+5. The va_arg macro is used to retrieve the next argument from the va_list. It must be passed the va_list variable, 
+	and the type of the argument being retrieved.
+6.  The format is a character string which
+	contains three types of objects: plain characters, which are simply copied to standard output, character escape sequences 
+	which are converted and copied to the standard output, 
+	and format specifications, each of which causes printing of the next successive argument. (From the man)
+
+Thought proocess:
+1. The first element of the printf function is always a string
+2. If there is no % sign in the string, then we just print out each letter and exit (implement this first)
+3. If there is a percent sign, then we look at the next letter, confirm whether it is an accepted format
+4. If it is not accepted, then ?
+5. And if it is, find out the next argument, verify whether it is of the same type, and if it isn't, then try converting
+6. If conversion also is not possible, then we return an error
+7. We also need to return the number of characters printed to the output string.
+8. printf will end a string if it spots a \0 anywhere within the string
+9. printf will also ignore a % sign if it is followed by nothing. It doesn't even count toward total sum.
+10. What happens if in our string there is a %c or %s, but there are no additional arguments?
+11. i.e, what if we have format specifiers without additional arguments
+
+12. 	else if (format[i] == '\\')
+			{
+			.....
+			}
+13. Add this condtion if required
+14. Change int's to size_t's if required.
+15. Printing the wrong format specifier leads to undefined behaviour.
+Example: %k leads to printing k, but %v leads to nothing (Try it)
+	Also try printing %vklm
+	printf("Again %vklm"); 
+16. When do we return negative?

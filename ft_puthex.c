@@ -1,25 +1,49 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_puthex.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nkunnath <nkunnath@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/24 11:34:17 by nkunnath          #+#    #+#             */
+/*   Updated: 2024/07/24 11:34:19 by nkunnath         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
-static int	ft_puthex_lower(unsigned int n)
+static void	ft_strcpy(char *dest, char *src)
 {
-	int	count;
+	int	i;
 
-	count = 0;
-
+	i = 0;
+	while (src[i] != '\0')
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
 }
 
-static int	ft_puthex_upper(unsigned int n)
+void	ft_puthex(unsigned int n, char c, int *num_printed)
 {
-	int				count;
+	char			result;
+	char			table[17];
+	int				digit;
 
-	count = 0;
-	
-}
-
-int		ft_puthex(unsigned int n, char c)
-{
-	if (c >= 65 && c <= 97)
-		return (ft_puthex_lower(n));
-	else
-		return (ft_puthex_upper(n));
+	ft_strcpy(table, "0123456789abcdef");
+	if (n > 15)
+	{
+		digit = n % 16;
+		result = table[digit];
+		ft_puthex((n / 16), c, num_printed);
+		if (c == 'x')
+			write(1, &result, 1);
+		else
+		{
+			result -= 32;
+			write(1, &result, 1);
+		}
+		*num_printed += 1;
+	}
 }

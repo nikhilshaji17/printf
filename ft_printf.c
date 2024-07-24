@@ -12,22 +12,25 @@
 
 #include "ft_printf.h"
 
-static int	check_format(char c, va_list args)
+static void	check_format(char c, va_list args, int *num_printed)
 {
 	if (c == 'c')
-		return ft_putchar(va_arg(args, char));
+		ft_putchar(va_arg(args, int), num_printed);
 	else if (c == 's')
-		return ft_putstr(va_arg(args, char *));
+		ft_putstr(va_arg(args, char *), num_printed);
 	else if (c == 'p')
-		return (ft_putstr("0x") + ft_putptr(va_arg(args, void *)));
+	{
+		ft_putstr("0x", num_printed);
+		ft_puthex((unsigned long long)va_arg(args, void *), 'x', num_printed);
+	}
 	else if (c == 'i' || c == 'd')
-		return ft_putnbr(va_arg(args, int));
+		ft_putnbr(va_arg(args, int), num_printed);
 	else if (c == '%')
-		return ft_putchar('%');
+		ft_putchar('%', num_printed);
 	else if (c == 'u')
-		return ft_putunbr(va_arg(args, unsigned int));
+		ft_putunbr(va_arg(args, unsigned int), num_printed);
 	else if (c == 'x' || c == 'X')
-		return ft_puthex(va_arg(args, unsigned int), c);
+		ft_puthex(va_arg(args, unsigned int), c, num_printed);
 }
 
 int	ft_printf(const char *format, ...)
@@ -42,7 +45,10 @@ int	ft_printf(const char *format, ...)
 	while (format[i])
 	{
 		if (format[i] == '%')
-			num_printed += check_format(format[i + 1], args);
+		{
+			check_format(format[i + 1], args, &num_printed);
+			i += 1;
+		}
 		else
 		{
 			write(1, &format[i], 1);

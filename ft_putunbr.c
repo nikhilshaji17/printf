@@ -1,17 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putunbr.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nkunnath <nkunnath@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/24 11:34:53 by nkunnath          #+#    #+#             */
+/*   Updated: 2024/07/24 11:34:54 by nkunnath         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
-int	ft_putunbr(unsigned int n, int count)
+void	ft_putunbr(unsigned int n, int *num_printed)
 {
 	char	digit;
-	int		count;
 
-	count = 0;
 	if (n > 0)
 	{
 		digit = (n % 10) + '0';
-		count += ft_putunbr(n / 10, count);
+		ft_putunbr(n / 10, num_printed);
 		write(1, &digit, 1);
-		count += 1;
+		*num_printed += 1;
 	}
-	return (count);
 }

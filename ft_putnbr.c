@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nkunnath <nkunnath@student.42abudhabi.ae>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/24 11:34:46 by nkunnath          #+#    #+#             */
+/*   Updated: 2024/07/24 11:34:48 by nkunnath         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 static int	print_number(unsigned int x, int count)
@@ -14,23 +26,23 @@ static int	print_number(unsigned int x, int count)
 	return (count);
 }
 
-void	ft_putnbr(int n)
+void	ft_putnbr(int n, int *num_printed)
 {
 	unsigned int	x;
-	int				count;
 
-	count = 0;
 	if (n == 0)
 	{
 		write(1, "0", 1);
+		*num_printed += 1;
 		return ;
 	}
 	else if (n < 0)
 	{
 		write(1, "-", 1);
+		*num_printed += 1;
 		x = n * -1;
 	}
 	else
 		x = n;
-	return (print_number(x), count);
+	*num_printed += print_number(x, 0);
 }

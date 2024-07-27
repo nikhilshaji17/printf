@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <stdio.h>
 
 static void	ft_strcpy(char *dest, char *src)
 {
@@ -25,25 +26,48 @@ static void	ft_strcpy(char *dest, char *src)
 	dest[i] = '\0';
 }
 
-void	ft_puthex(unsigned int n, char c, int *num_printed)
+static void	print_number(unsigned long long n, char *table, int *num_printed)
 {
-	char			result;
-	char			table[17];
-	int				digit;
+	char	result;
+	int		x;
 
-	ft_strcpy(table, "0123456789abcdef");
-	if (n > 15)
+	if (n > 0)
 	{
-		digit = n % 16;
-		result = table[digit];
-		ft_puthex((n / 16), c, num_printed);
-		if (c == 'x')
-			write(1, &result, 1);
-		else
+		result = table[n % 16];
+		print_number((n / 16), table, num_printed);
+		if (*num_printed == -1)
+			return ;
+		x = write(1, &result, 1);
+		if (x == -1)
 		{
-			result -= 32;
-			write(1, &result, 1);
+			*num_printed = -1;
+			return ;
 		}
 		*num_printed += 1;
 	}
+}
+
+void	ft_puthex(unsigned long long n, char c, int *num_printed)
+{
+	char	table_lower[17];
+	char	table_upper[17];
+	int		x;
+
+	ft_strcpy(table_lower, "0123456789abcdef"); 
+	ft_strcpy(table_upper, "0123456789ABCDEF");
+	if (n == 0)
+	{
+		x = write(1, "0", 1);
+		if (x == -1)
+		{
+			*num_printed = -1;
+			return ;
+		}
+		*num_printed += 1;
+		return ;
+	}
+	if (c == 'x')
+		print_number(n, table_lower, num_printed);
+	else
+		print_number(n, table_upper, num_printed);
 }

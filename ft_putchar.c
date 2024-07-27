@@ -14,6 +14,13 @@
 
 void	ft_putchar(char c, int *num_printed)
 {
-	write(1, &c, 1);
+	int	x;
+
+	x = write(1, &c, 1);
+	if (x == -1)
+	{
+		*num_printed = -1;
+		return ;
+	}
 	*num_printed += 1;
 }

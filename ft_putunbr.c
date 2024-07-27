@@ -12,15 +12,39 @@
 
 #include "ft_printf.h"
 
-void	ft_putunbr(unsigned int n, int *num_printed)
+static void	print_number(unsigned int x, int *num_printed)
 {
 	char	digit;
+	int		y;
 
-	if (n > 0)
+	if (x > 0)
 	{
-		digit = (n % 10) + '0';
-		ft_putunbr(n / 10, num_printed);
-		write(1, &digit, 1);
+		digit = (x % 10) + '0';
+		print_number(x / 10, num_printed);
+		if (*num_printed == -1)
+			return ;
+		y = write(1, &digit, 1);
+		if (y == -1)
+		{
+			*num_printed = -1;
+			return ;
+		}
 		*num_printed += 1;
 	}
+}
+
+void	ft_putunbr(unsigned int n, int *num_printed)
+{
+	int	y;
+
+	if (n == 0)
+	{
+		y = write(1, "0", 1);
+		if (y == -1)
+			*num_printed = -1;
+		else
+			*num_printed += 1;
+		return ;
+	}
+	print_number(n, num_printed);
 }

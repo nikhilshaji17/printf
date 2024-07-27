@@ -74,10 +74,12 @@ Example: %k leads to printing k, but %v leads to nothing (Try it)
 
 
 Things to do:
-1. Fix norminette
+1. Fix norminette - Done
 2. Verify function definitions and header files - Done
+7. Create makefile - Done
+4. Upload - Done 
+6. Fix hexadecimal conversion - Next up
+
+
 3. Test function manually, then run w paco
-4. Upload
 5. Go and evaluate
-6. Fix hexadecimal conversion
-7. Create makefile

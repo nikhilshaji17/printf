@@ -1,12 +1,12 @@
-**Project Description**
+## **Project Description**
 
 A project where students implement their own version of the printf function in C, mimicking its behavior and supporting various format specifiers for output.
 
-**Objective**
+## **Objective**
 
 Recreate the functionality of the standard C library function printf, supporting common format specifiers like %d, %s, %x, %c, and others. The goal is to produce an output similar to the standard printf, but without using the library version.
 
-**Complexity and Challenges**
+## **Complexity and Challenges**
 
 Key challenges include:
 
@@ -18,7 +18,7 @@ Key challenges include:
 
 **Memory Management:** Properly managing memory when working with dynamic strings or buffers for formatted output.
 
-**Skills and Competencies Gained**
+## **Skills and Competencies Gained**
 
 **Function Implementation:** Gaining experience in implementing a core C library function and understanding its inner workings.
 
